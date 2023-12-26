@@ -15,7 +15,17 @@ const all_letters = [
     "c",  "ə",  "h",  "o",  "t",
 ];
 
+const loading = () => {
+    document.querySelector("#loading").style.display = "block";
+}
+
+const loaded = () => {
+    document.querySelector("#loading").style.display = "none";
+}
+
 const send_message = async (message) => {
+    loading();
+
     const response = await fetch("/message", {
         method: "POST",
         headers: {
@@ -23,6 +33,8 @@ const send_message = async (message) => {
         },
         body: JSON.stringify({"message": message})
     });
+
+    loaded();
 
     const json = await response.json();
     const duration = json.duration - 300;

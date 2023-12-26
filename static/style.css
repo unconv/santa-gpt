@@ -12,7 +12,8 @@ html, body {
 
 #background,
 #background0,
-#background1 {
+#background1,
+#loading {
     background-size: cover;
     background-position: 50% 50%;
     width: 100%;
@@ -31,7 +32,7 @@ html, body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 3;
+    z-index: 4;
     font-size: 2em;
     padding: 15px;
     border-radius: 20px;
@@ -39,4 +40,10 @@ html, body {
     border: 2px solid black;
     box-shadow: rgba(0, 0, 0, 0.8) 0 0 30px;
     cursor: pointer;
+}
+
+#loading {
+    background-image: url("/static/images/loading.jpg");
+    display: none;
+    z-index: 3;
 }
