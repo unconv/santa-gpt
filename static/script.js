@@ -1,3 +1,5 @@
+let initialized = false;
+
 var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition
 
 const recognition = new SpeechRecognition();
@@ -41,7 +43,6 @@ const send_message = async (message) => {
     const audio_uri = "data:audio/wav;base64,"+json.audio;
     const letters = [];
     const stripped_response = json.ipa.toLowerCase().replace(/[\?!'ˈ ]/g, '');
-    console.log(stripped_response);
 
     for(let i = 0; i < stripped_response.length; i++) {
         let letter = stripped_response[i];
@@ -65,24 +66,36 @@ const send_message = async (message) => {
 
 const start = () => {
     document.querySelector("#background").classList.remove("blurred");
-    document.querySelector("#start").remove();
+    document.querySelector("#start").style.display = "none";
+    document.querySelector("#stop").style.display = "block";
 
     recognition.start();
 
-    recognition.onresult = function(event) {
-        const message = event.results[0][0].transcript;
+    if( ! initialized ) {
+        initialized = true;
 
-        send_message(message);
-    }
+        recognition.onresult = function(event) {
+            const message = event.results[0][0].transcript;
 
-    recognition.onspeechend = function() {
-        recognition.stop();
-    }
+            send_message(message);
+        }
 
-    recognition.onerror = function(event) {
-        console.error(event.error);
+        recognition.onspeechend = function() {
+            recognition.stop();
+        }
+
+        recognition.onerror = function(event) {
+            console.error(event.error);
+        }
     }
 };
+
+const stop = () => {
+    recognition.stop();
+    document.querySelector("#background").classList.add("blurred");
+    document.querySelector("#start").style.display = "block";
+    document.querySelector("#stop").style.display = "none";
+}
 
 const next_frame = (letters, index, animation_speed) => {
     if( index > letters.length-1 ) {

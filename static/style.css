@@ -42,6 +42,21 @@ html, body {
     cursor: pointer;
 }
 
+#stop {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 4;
+    font-size: 1.2em;
+    padding: 12px;
+    border-radius: 15px;
+    background: #fff;
+    border: 2px solid black;
+    box-shadow: rgba(0, 0, 0, 0.8) 0 0 30px;
+    cursor: pointer;
+    display: none;
+}
+
 #loading {
     background-image: url("/static/images/loading.jpg");
     display: none;
