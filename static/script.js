@@ -3,7 +3,11 @@ let started = false;
 let session = null;
 let sending_message = false;
 
-var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition
+try {
+    var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition || null;
+} catch( e ) {
+    document.querySelector("#start").textContent = "Sorry, your browser doesn't support speech recognition :(";
+}
 
 const recognition = new SpeechRecognition();
 recognition.continuous = false;
