@@ -1,0 +1,5 @@
+elevenlabs
+eng_to_ipa
+openai
+flask
+pydub
