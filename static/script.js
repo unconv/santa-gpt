@@ -1,4 +1,7 @@
 let initialized = false;
+let started = false;
+let session = null;
+let sending_message = false;
 
 var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition
 
@@ -26,6 +29,11 @@ const loaded = () => {
 }
 
 const send_message = async (message) => {
+    if( sending_message ) {
+        return false;
+    }
+
+    sending_message = true;
     loading();
 
     const response = await fetch("/message", {
@@ -33,12 +41,16 @@ const send_message = async (message) => {
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({"message": message})
+        body: JSON.stringify({
+            "message": message,
+            "session": session
+        })
     });
 
     loaded();
 
     const json = await response.json();
+    session = json.session;
     const duration = json.duration - 300;
     const audio_uri = "data:audio/wav;base64,"+json.audio;
     const letters = [];
@@ -57,7 +69,10 @@ const send_message = async (message) => {
     const audio = new Audio(audio_uri);
     setTimeout(() => {
         stop_animation();
-        recognition.start();
+        sending_message = false;
+        if( started ) {
+            recognition.start();
+        }
     }, duration + animation_speed);
 
     start_animation(letters, animation_speed);
@@ -69,6 +84,7 @@ const start = () => {
     document.querySelector("#start").style.display = "none";
     document.querySelector("#stop").style.display = "block";
 
+    started = true;
     recognition.start();
 
     if( ! initialized ) {
