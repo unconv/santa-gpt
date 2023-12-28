@@ -131,8 +131,8 @@ const next_frame = (letters, index, animation_speed) => {
         const bg_element1 = document.querySelector("#"+background1);
         const bg_element2 = document.querySelector("#"+background2);
         bg_element2.style.backgroundImage = "url('/static/images/letters/"+letter+".jpg')";
-        bg_element2.style.zIndex = 1;
-        bg_element1.style.zIndex = 2;
+        bg_element2.style.zIndex = 2;
+        bg_element1.style.zIndex = 1;
 
         next_frame(letters, index+1, animation_speed);
     }, animation_speed);
