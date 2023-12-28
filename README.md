@@ -26,7 +26,7 @@ If you want to use ElevenLabs for text-to-speech, you also need to add your Elev
 
 ```console
 $ export ELEVEN_API_KEY=YOUR_API_KEY
-SPEECH_API=elevenlabs
+$ export SPEECH_API=elevenlabs
 ```
 
 ## Changing the voice
