@@ -59,13 +59,16 @@ def message():
     if len(message_storage.keys()) > 50:
         message_storage = {}
 
+
     if os.getenv("SPEECH_API") == "elevenlabs":
-        audio = generate(message_text, voice="Oswald")
+        voice = os.getenv("VOICE_NAME") or "Santa Claus"
+        audio = generate(message_text, voice=voice)
     else:
+        voice = os.getenv("VOICE_NAME") or "onyx"
         audio = client.audio.speech.create(
             input=message_text,
             model="tts-1",
-            voice="onyx",
+            voice=voice,
         ).read()
 
     audio_b64 = base64.b64encode(audio).decode("utf-8")
